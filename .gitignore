@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.log
+assets/profile-illustrated*-source.png
+assets/profile.webp
+assets/profile-illustrated.webp

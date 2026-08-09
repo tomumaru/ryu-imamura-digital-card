@@ -1,0 +1,10 @@
+{
+  "name": "ryu-imamura-digital-card",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ryu Imamura's digital business card",
+  "scripts": {
+    "prepare-release": "node tools/prepare-release.mjs",
+    "check": "node tools/validate.mjs"
+  }
+}
