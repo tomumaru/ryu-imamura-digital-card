@@ -40,8 +40,11 @@
       <div class="hero-grid">
         <div class="portrait-wrap">
           <span class="portrait-code" aria-hidden="true">HUMAN × ICT / 001</span>
-          <div class="portrait-frame">
+          <div class="portrait-frame" id="portrait-stage">
             <img data-profile-image class="portrait" src="assets/profile-dotmatrix-v3.webp" alt="点とグリフで描いた今村 立のポートレート" width="1122" height="1402">
+            <canvas class="portrait-3d" id="portrait-3d" aria-hidden="true"></canvas>
+            <span class="portrait-depth" aria-hidden="true">DEPTH / 3D</span>
+            <span class="portrait-control" aria-hidden="true"><i></i> DRAG TO ROTATE</span>
           </div>
           <span class="portrait-marker" aria-hidden="true">RI</span>
         </div>
@@ -79,22 +82,22 @@
         </div>
 
         <div class="contact-grid">
-          <a class="contact-item contact-featured" data-email-link href="mailto:r.imamura@winbest.jp">
+          <a class="contact-item contact-featured" data-motion-label="MAIL" data-email-link href="mailto:r.imamura@winbest.jp">
             <span class="contact-index" aria-hidden="true">01</span>
             <span class="contact-copy"><small>Email</small><strong data-email>r.imamura@winbest.jp</strong></span>
             <span class="contact-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="contact-item" data-mobile-link href="tel:+819053906470">
+          <a class="contact-item" data-motion-label="CALL" data-mobile-link href="tel:+819053906470">
             <span class="contact-index" aria-hidden="true">02</span>
             <span class="contact-copy"><small>Mobile</small><strong data-mobile>090-5390-6470</strong></span>
             <span class="contact-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="contact-item" data-linkedin-link href="https://www.linkedin.com/in/ryu-imamura" target="_blank" rel="me noopener">
+          <a class="contact-item" data-motion-label="LINK" data-linkedin-link href="https://www.linkedin.com/in/ryu-imamura" target="_blank" rel="me noopener">
             <span class="contact-index" aria-hidden="true">03</span>
             <span class="contact-copy"><small>LinkedIn</small><strong>プロフィールを見る</strong></span>
             <span class="contact-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="contact-item" data-company-link href="http://winbest.jp/" target="_blank" rel="noopener">
+          <a class="contact-item" data-motion-label="WEB" data-company-link href="http://winbest.jp/" target="_blank" rel="noopener">
             <span class="contact-index" aria-hidden="true">04</span>
             <span class="contact-copy"><small>Website</small><strong>winbest.jp</strong></span>
             <span class="contact-arrow" aria-hidden="true">↗</span>
@@ -149,12 +152,18 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="interaction-display" id="interaction-display" aria-hidden="true">
+    <span id="interaction-label"></span>
+    <strong id="interaction-value"></strong>
+  </div>
 
   <noscript>
     <p class="noscript-note">共有機能にはJavaScriptが必要です。連絡先の保存や各リンクはそのまま利用できます。</p>
   </noscript>
   <script src="site-config.js"></script>
   <script src="assets/vendor/qrcode.js?v=20260810"></script>
+  <script src="portrait-3d.js?v=20260811"></script>
   <script src="app.js"></script>
 </body>
 </html>
+

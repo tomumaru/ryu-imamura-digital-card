@@ -94,6 +94,7 @@ button {
   background: var(--paper);
   border: 1px solid rgba(255, 255, 255, 0.24);
   box-shadow: 0 34px 100px rgba(0, 8, 28, 0.42);
+  --scroll-progress: 0;
 }
 
 .card-accent {
@@ -204,6 +205,13 @@ button {
   aspect-ratio: 4 / 5;
   background: #ece7dd;
   border: 1px solid rgba(18, 86, 196, 0.32);
+  cursor: grab;
+  touch-action: pan-y;
+  isolation: isolate;
+}
+
+.portrait-frame.is-dragging {
+  cursor: grabbing;
 }
 
 .portrait-frame::before,
@@ -234,6 +242,69 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: center center;
+  transition: opacity 500ms ease;
+}
+
+.portrait-3d {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+.portrait-frame.is-3d-ready .portrait {
+  opacity: 0;
+}
+
+.portrait-frame.is-3d-ready .portrait-3d {
+  opacity: 1;
+}
+
+.portrait-depth,
+.portrait-control {
+  position: absolute;
+  z-index: 4;
+  color: var(--navy);
+  font-size: 7px;
+  font-weight: 850;
+  letter-spacing: 0.18em;
+  pointer-events: none;
+}
+
+.portrait-depth {
+  top: 18px;
+  right: 17px;
+  padding: 5px 7px;
+  color: #fff;
+  background: rgba(7, 28, 66, 0.82);
+}
+
+.portrait-control {
+  right: 16px;
+  bottom: 17px;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  padding: 7px 9px;
+  background: rgba(255, 253, 248, 0.86);
+  backdrop-filter: blur(6px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.portrait-control i {
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  box-shadow: -3px -2px 0 -1px currentColor, 3px 2px 0 -1px currentColor;
+}
+
+.portrait-frame:hover .portrait-control,
+.portrait-frame.is-dragging .portrait-control {
+  transform: translateX(-4px);
 }
 
 .portrait-marker {
@@ -293,6 +364,8 @@ button {
   font-weight: 800;
   line-height: 0.98;
   letter-spacing: 0.02em;
+  transform: translateX(var(--name-shift, 0));
+  transition: transform 90ms linear;
 }
 
 .name-en {
@@ -427,6 +500,9 @@ button {
 }
 
 .contact-item {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: grid;
   grid-template-columns: 34px 1fr 30px;
   gap: 10px;
@@ -436,6 +512,61 @@ button {
   background: transparent;
   border-bottom: 1px solid var(--line);
   transition: color 160ms ease, padding 160ms ease, background 160ms ease;
+}
+
+.contact-item::before {
+  position: absolute;
+  top: var(--pulse-y, 50%);
+  left: var(--pulse-x, 50%);
+  z-index: -1;
+  width: 18px;
+  height: 18px;
+  content: "";
+  background: var(--blue);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.contact-item::after {
+  position: absolute;
+  right: 44px;
+  bottom: -15px;
+  z-index: -1;
+  content: attr(data-motion-label);
+  color: rgba(18, 86, 196, 0.08);
+  font-size: 58px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  opacity: 0;
+  transform: translateX(18px);
+  transition: opacity 220ms ease, transform 320ms cubic-bezier(.2,.8,.2,1);
+}
+
+.contact-item:is(:hover, :focus-visible)::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.contact-item.is-activated::before {
+  animation: contact-pulse 600ms cubic-bezier(.2,.7,.1,1);
+}
+
+.contact-item.is-activated .contact-copy strong {
+  animation: contact-value 560ms cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes contact-pulse {
+  0% { opacity: 0.72; transform: translate(-50%, -50%) scale(0); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(38); }
+}
+
+@keyframes contact-value {
+  0% { transform: translateY(0); }
+  35% { color: #fff; transform: translateY(-5px) scale(1.025); }
+  100% { transform: translateY(0); }
 }
 
 .contact-item:hover {
@@ -536,6 +667,34 @@ button {
 
 .office-list a:hover {
   color: var(--blue);
+}
+
+.office-list a.is-activated {
+  animation: office-link-pulse 540ms ease;
+}
+
+@keyframes office-link-pulse {
+  0%, 100% { text-shadow: none; }
+  42% { color: var(--blue); text-shadow: 0 0 18px rgba(18, 86, 196, 0.35); }
+}
+
+.motion-reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 700ms ease, transform 850ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.motion-reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.primary-actions.motion-reveal {
+  transform: translateX(34px);
+}
+
+.primary-actions.motion-reveal.is-revealed {
+  transform: translateX(0);
 }
 
 .card-footer {
@@ -672,6 +831,67 @@ button {
 .toast.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.interaction-display {
+  position: fixed;
+  right: 16px;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 16px;
+  z-index: 190;
+  width: min(calc(100% - 32px), 680px);
+  margin: 0 auto;
+  padding: 18px 22px 20px;
+  overflow: hidden;
+  color: #fff;
+  background: rgba(7, 28, 66, 0.96);
+  border-left: 5px solid var(--red);
+  box-shadow: 0 22px 70px rgba(0, 8, 28, 0.36);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(100% + 32px));
+  transition: opacity 200ms ease, transform 500ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.interaction-display::after {
+  position: absolute;
+  right: -20px;
+  bottom: -44px;
+  content: "CONNECT";
+  color: rgba(255, 255, 255, 0.055);
+  font-size: 76px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.interaction-display.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.interaction-display span,
+.interaction-display strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.interaction-display span {
+  margin-bottom: 4px;
+  color: #9dc2ff;
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 0.22em;
+}
+
+.interaction-display strong {
+  overflow: hidden;
+  font-size: clamp(20px, 6vw, 36px);
+  font-weight: 780;
+  letter-spacing: 0.015em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .noscript-note {
@@ -844,6 +1064,10 @@ button {
   .action {
     justify-content: center;
   }
+
+  .portrait-control {
+    font-size: 6px;
+  }
 }
 
 @media (max-width: 340px) {
@@ -870,6 +1094,19 @@ button {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+
+  .motion-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .portrait-control {
+    display: none;
+  }
+
+  .interaction-display {
+    display: none;
+  }
 }
 
 @media print {
@@ -891,3 +1128,4 @@ button {
     box-shadow: none;
   }
 }
+

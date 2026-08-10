@@ -200,7 +200,86 @@
     }
   }
 
+  function initializeMotionExperience() {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const revealTargets = [
+      $(".identity"),
+      $(".primary-actions"),
+      $(".contact-section"),
+      $(".office-section")
+    ].filter(Boolean);
+
+    revealTargets.forEach((element) => element.classList.add("motion-reveal"));
+    if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+      revealTargets.forEach((element) => element.classList.add("is-revealed"));
+    } else {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.16, rootMargin: "0px 0px -7%" });
+      revealTargets.forEach((element) => observer.observe(element));
+    }
+
+    $$(".contact-item, .office-list a").forEach((element) => {
+      element.addEventListener("pointerdown", (event) => {
+        element.classList.remove("is-activated");
+        const bounds = element.getBoundingClientRect();
+        element.style.setProperty("--pulse-x", `${event.clientX - bounds.left}px`);
+        element.style.setProperty("--pulse-y", `${event.clientY - bounds.top}px`);
+        requestAnimationFrame(() => element.classList.add("is-activated"));
+        window.setTimeout(() => element.classList.remove("is-activated"), 620);
+      });
+    });
+
+    const interactionDisplay = $("#interaction-display");
+    const interactionLabel = $("#interaction-label");
+    const interactionValue = $("#interaction-value");
+    let interactionTimer;
+    function showInteraction(label, value) {
+      if (!interactionDisplay) return;
+      interactionLabel.textContent = label;
+      interactionValue.textContent = value;
+      interactionDisplay.classList.remove("is-visible");
+      requestAnimationFrame(() => interactionDisplay.classList.add("is-visible"));
+      window.clearTimeout(interactionTimer);
+      interactionTimer = window.setTimeout(() => interactionDisplay.classList.remove("is-visible"), 720);
+    }
+
+    [
+      { selector: "[data-mobile-link]", label: "MOBILE", value: config.contact.mobile },
+      { selector: "[data-tel-link]", label: "OFFICE TEL", value: config.contact.telephone },
+      { selector: "[data-email-link]", label: "EMAIL", value: config.contact.email }
+    ].forEach(({ selector, label, value }) => {
+      $$(selector).forEach((element) => {
+        element.addEventListener("pointerdown", () => showInteraction(label, value));
+      });
+    });
+
+    const card = $(".card");
+    const name = $(".name");
+    let ticking = false;
+    function updateScrollStory() {
+      if (reducedMotion.matches) return;
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, window.scrollY / max));
+      card.style.setProperty("--scroll-progress", progress.toFixed(4));
+      if (name) name.style.setProperty("--name-shift", `${(progress - 0.18) * 22}px`);
+      ticking = false;
+    }
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateScrollStory);
+      }
+    }, { passive: true });
+    updateScrollStory();
+  }
+
   hydratePage();
+  initializeMotionExperience();
 
   $("#share-button").addEventListener("click", shareCard);
   $("#qr-button").addEventListener("click", openQrDialog);
@@ -218,3 +297,4 @@
     if (event.target === event.currentTarget) closeQrDialog();
   });
 })();
+
