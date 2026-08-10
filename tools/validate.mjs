@@ -10,9 +10,9 @@ const required = [
   "app.js",
   "site-config.js",
   "contact.vcf",
-  "assets/profile-illustrated-v2.webp",
+  "assets/profile-dotmatrix-v3.webp",
   "assets/winbest-logo.webp",
-  "assets/og-card.jpg",
+  "assets/og-card-v3.jpg",
   "assets/vendor/qrcode.js"
 ];
 

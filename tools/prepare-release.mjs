@@ -37,7 +37,7 @@ const vcard = [
 fs.writeFileSync(path.join(root, "contact.vcf"), vcard, "utf8");
 
 const baseUrl = config.publicUrl.endsWith("/") ? config.publicUrl : `${config.publicUrl}/`;
-const ogImageUrl = new URL("assets/og-card.jpg", baseUrl).href;
+const ogImageUrl = new URL("assets/og-card-v3.jpg", baseUrl).href;
 const indexPath = path.join(root, "index.html");
 let html = fs.readFileSync(indexPath, "utf8");
 html = html

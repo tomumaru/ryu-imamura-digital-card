@@ -6,8 +6,8 @@ window.SITE_CONFIG = Object.freeze({
     titleJa: "代表取締役",
     titleEn: "CEO",
     tagline: "人と技術をつなぎ、未来の仕組みをつくる。",
-    profileImage: "assets/profile-illustrated-v2.webp",
-    profileAlt: "今村 立のプロフィールイラスト"
+    profileImage: "assets/profile-dotmatrix-v3.webp",
+    profileAlt: "点とグリフで描いた今村 立のポートレート"
   },
   company: {
     nameJa: "ウインベスト株式会社",
