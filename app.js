@@ -143,10 +143,41 @@
       return;
     }
 
-    const qr = window.qrcode(0, "M");
+    const qr = window.qrcode(0, "H");
     qr.addData(currentPublicUrl());
     qr.make();
-    target.innerHTML = qr.createSvgTag({ cellSize: 8, margin: 4, scalable: true });
+
+    const count = qr.getModuleCount();
+    const margin = 4;
+    const canvasSize = count + margin * 2;
+    const center = count / 2;
+    const clearSize = Math.min(9, Math.floor(count * 0.22) | 1);
+    const clearStart = Math.floor(center - clearSize / 2);
+    const clearEnd = clearStart + clearSize;
+    const finderOrigins = [[0, 0], [0, count - 7], [count - 7, 0]];
+    const inFinder = (row, column) => finderOrigins.some(([fy, fx]) =>
+      row >= fy && row < fy + 7 && column >= fx && column < fx + 7
+    );
+
+    const modules = [];
+    for (let row = 0; row < count; row += 1) {
+      for (let column = 0; column < count; column += 1) {
+        if (!qr.isDark(row, column) || inFinder(row, column)) continue;
+        if (row >= clearStart && row < clearEnd && column >= clearStart && column < clearEnd) continue;
+        const fill = (row + column) % 9 < 2 ? "#1256c4" : "#071c42";
+        modules.push(`<rect x="${margin + column + 0.08}" y="${margin + row + 0.08}" width="0.84" height="0.84" rx="0.26" fill="${fill}"/>`);
+      }
+    }
+
+    const finders = finderOrigins.map(([row, column]) => {
+      const x = margin + column;
+      const y = margin + row;
+      return `<g><rect x="${x}" y="${y}" width="7" height="7" rx="1.25" fill="#1256c4"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" rx="0.9" fill="#fffdf8"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3" rx="0.72" fill="#071c42"/></g>`;
+    }).join("");
+
+    const logoX = margin + clearStart;
+    const logoY = margin + clearStart;
+    target.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvasSize} ${canvasSize}" role="img" aria-label="このデジタル名刺を開くQRコード"><rect width="${canvasSize}" height="${canvasSize}" rx="3" fill="#fffdf8"/>${modules.join("")}${finders}<rect x="${logoX}" y="${logoY}" width="${clearSize}" height="${clearSize}" rx="1.6" fill="#fff" stroke="#1256c4" stroke-width="0.24"/><image href="assets/winbest-logo.webp" x="${logoX + 1.15}" y="${logoY + 1.15}" width="${clearSize - 2.3}" height="${clearSize - 2.3}" preserveAspectRatio="xMidYMid meet"/></svg>`;
     target.dataset.ready = currentPublicUrl();
   }
 

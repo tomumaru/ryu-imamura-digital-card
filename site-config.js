@@ -12,7 +12,7 @@ window.SITE_CONFIG = Object.freeze({
   company: {
     nameJa: "ウインベスト株式会社",
     nameEn: "WINBEST Co., LTD",
-    website: "https://www.winbest.jp/",
+    website: "http://winbest.jp/",
     logo: "assets/winbest-logo.webp"
   },
   contact: {
