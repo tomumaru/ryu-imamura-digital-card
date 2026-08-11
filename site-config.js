@@ -21,9 +21,11 @@ window.SITE_CONFIG = Object.freeze({
     fax: "03-3523-9553",
     mobile: "090-5390-6470",
     postalCode: "104-0041",
-    address: "東京都中央区新富1-3-9 東光ビル4階"
+    address: "東京都中央区新富1-3-9 東光ビル4階",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=35.673248%2C139.773880"
   },
   social: {
     linkedin: "https://www.linkedin.com/in/ryu-imamura"
   }
 });
+
