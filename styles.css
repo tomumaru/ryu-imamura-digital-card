@@ -242,10 +242,11 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  transition: opacity 500ms ease;
+  filter: saturate(0.96) contrast(1.02);
+  transition: filter 600ms ease, opacity 600ms ease;
 }
 
-.portrait-3d {
+.portrait-points {
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -253,19 +254,45 @@ button {
   width: 100%;
   height: 100%;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 700ms ease;
 }
 
-.portrait-frame.is-3d-ready .portrait {
-  opacity: 0;
+.portrait-frame.is-points-ready .portrait {
+  opacity: 0.68;
+  filter: saturate(0.88) contrast(1.02);
 }
 
-.portrait-frame.is-3d-ready .portrait-3d {
+.portrait-frame.is-points-ready .portrait-points {
   opacity: 1;
 }
 
-.portrait-depth,
-.portrait-control {
+.portrait-scan {
+  position: absolute;
+  z-index: 3;
+  top: -10%;
+  right: 0;
+  left: 0;
+  height: 16%;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(80, 213, 228, 0.13) 68%, rgba(83, 216, 230, 0.72) 72%, transparent 76%);
+  mix-blend-mode: multiply;
+}
+
+.portrait-frame.is-points-ready .portrait-scan {
+  animation: portrait-scan 6.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes portrait-scan {
+  0%, 16% { transform: translateY(-18%); opacity: 0; }
+  22% { opacity: 0.82; }
+  54% { opacity: 0.64; }
+  62%, 100% { transform: translateY(720%); opacity: 0; }
+}
+
+.portrait-mode,
+.portrait-hint {
   position: absolute;
   z-index: 4;
   color: var(--navy);
@@ -275,35 +302,41 @@ button {
   pointer-events: none;
 }
 
-.portrait-depth {
+.portrait-mode {
   top: 18px;
   right: 17px;
+  display: flex;
+  gap: 7px;
+  align-items: center;
   padding: 5px 7px;
   color: #fff;
   background: rgba(7, 28, 66, 0.82);
 }
 
-.portrait-control {
+.portrait-mode i {
+  width: 5px;
+  height: 5px;
+  background: #68e0e6;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(104, 224, 230, 0.18);
+  animation: point-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes point-pulse {
+  50% { opacity: 0.38; transform: scale(0.72); }
+}
+
+.portrait-hint {
   right: 16px;
   bottom: 17px;
-  display: flex;
-  gap: 7px;
-  align-items: center;
   padding: 7px 9px;
   background: rgba(255, 253, 248, 0.86);
   backdrop-filter: blur(6px);
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.portrait-control i {
-  width: 18px;
-  height: 1px;
-  background: currentColor;
-  box-shadow: -3px -2px 0 -1px currentColor, 3px 2px 0 -1px currentColor;
-}
-
-.portrait-frame:hover .portrait-control,
-.portrait-frame.is-dragging .portrait-control {
+.portrait-frame:hover .portrait-hint,
+.portrait-frame.is-dragging .portrait-hint {
   transform: translateX(-4px);
 }
 
@@ -1065,7 +1098,9 @@ button {
     justify-content: center;
   }
 
-  .portrait-control {
+  .portrait-hint {
+    right: auto;
+    left: 16px;
     font-size: 6px;
   }
 }
@@ -1100,7 +1135,8 @@ button {
     transform: none;
   }
 
-  .portrait-control {
+  .portrait-hint,
+  .portrait-scan {
     display: none;
   }
 

@@ -8,6 +8,7 @@ const required = [
   "index.html",
   "styles.css",
   "app.js",
+  "portrait-points.js",
   "site-config.js",
   "contact.vcf",
   "assets/profile-dotmatrix-v3.webp",
@@ -47,9 +48,14 @@ for (const fragment of ["og:title", "og:description", "og:image", "canonical", "
   if (!html.includes(fragment)) errors.push(`メタデータ不足: ${fragment}`);
 }
 
+for (const fragment of ["portrait-points", "POINT FIELD", "portrait-points.js"]) {
+  if (!html.includes(fragment)) errors.push(`点群肖像の構成不足: ${fragment}`);
+}
+
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
 
 console.log("検証OK: 必須ファイル、公開URL、メタデータ、廃止肩書きを確認しました。");
+
