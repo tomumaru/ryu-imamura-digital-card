@@ -16,7 +16,7 @@
   <link rel="canonical" href="https://tomumaru.github.io/ryu-imamura-digital-card/">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=20260811b">
+  <link rel="stylesheet" href="styles.css?v=20260811c">
   <title>今村 立 | Digital Business Card</title>
 </head>
 <body>
@@ -40,8 +40,12 @@
       <div class="hero-grid">
         <div class="portrait-wrap">
           <span class="portrait-code" aria-hidden="true">HUMAN × ICT / 001</span>
-          <div class="portrait-frame">
+          <div class="portrait-frame" id="portrait-stage">
             <img data-profile-image class="portrait" src="assets/profile-dotmatrix-v3.webp" alt="点とグリフで描いた今村 立のポートレート" width="1122" height="1402">
+            <canvas class="portrait-points" id="portrait-points" aria-hidden="true"></canvas>
+            <span class="portrait-scan" aria-hidden="true"></span>
+            <span class="portrait-mode" aria-hidden="true"><i></i> POINT FIELD</span>
+            <span class="portrait-hint" aria-hidden="true">TOUCH / TRACE</span>
           </div>
           <span class="portrait-marker" aria-hidden="true">RI</span>
         </div>
@@ -159,7 +163,8 @@
   </noscript>
   <script src="site-config.js"></script>
   <script src="assets/vendor/qrcode.js?v=20260810"></script>
-  <script src="app.js?v=20260811b"></script>
+  <script src="portrait-points.js?v=20260811"></script>
+  <script src="app.js?v=20260811c"></script>
 </body>
 </html>
 
