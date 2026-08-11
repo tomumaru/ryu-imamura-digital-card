@@ -71,10 +71,7 @@
     setHref("[data-mobile-link]", `tel:${internationalizeJapanesePhone(contact.mobile)}`);
     setHref("[data-tel-link]", `tel:${internationalizeJapanesePhone(contact.telephone)}`);
     setHref("[data-linkedin-link]", social.linkedin);
-    setHref(
-      "[data-map-link]",
-      `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`
-    );
+    setHref("[data-map-link]", contact.mapUrl);
 
     $("#year").textContent = new Date().getFullYear();
   }

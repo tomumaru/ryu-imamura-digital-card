@@ -27,6 +27,9 @@ const sandbox = { window: {} };
 vm.runInNewContext(configSource, sandbox);
 const config = sandbox.window.SITE_CONFIG;
 if (!config.publicUrl.startsWith("https://")) errors.push("publicUrl は https:// で始めてください");
+if (config.contact.mapUrl !== "https://www.google.com/maps/search/?api=1&query=35.673248%2C139.773880") {
+  errors.push("GoogleマップURLは東光ビルの確認済み座標を使用してください");
+}
 
 const publicExtensions = new Set([".html", ".css", ".js", ".vcf", ".json", ".md"]);
 const stack = [root];
@@ -47,6 +50,8 @@ const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 for (const fragment of ["og:title", "og:description", "og:image", "canonical", "theme-color"]) {
   if (!html.includes(fragment)) errors.push(`メタデータ不足: ${fragment}`);
 }
+
+if (!html.includes("35.673248%2C139.773880")) errors.push("Googleマップの座標リンクがHTMLにありません");
 
 for (const fragment of ["portrait-points", "POINT FIELD", "portrait-points.js"]) {
   if (!html.includes(fragment)) errors.push(`点群肖像の構成不足: ${fragment}`);
