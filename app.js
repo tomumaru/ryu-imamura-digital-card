@@ -203,13 +203,26 @@
   function initializeMotionExperience() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const revealTargets = [
-      $(".identity"),
-      $(".primary-actions"),
-      $(".contact-section"),
-      $(".office-section")
+      $(".identity-head"),
+      $(".tagline-slot"),
+      $(".contact-section .section-heading"),
+      $(".office-section .section-heading"),
+      ...$$(".primary-actions .action"),
+      ...$$(".contact-item"),
+      ...$$(".office-list > div")
     ].filter(Boolean);
 
-    revealTargets.forEach((element) => element.classList.add("motion-reveal"));
+    revealTargets.forEach((element, index) => {
+      element.classList.add("motion-reveal");
+      const group = element.closest(".primary-actions, .contact-grid, .office-list");
+      if (group) {
+        const siblings = [...group.querySelectorAll(":scope > .action, :scope > .contact-item, :scope > div")];
+        const order = Math.max(0, siblings.indexOf(element));
+        element.style.setProperty("--reveal-delay", `${Math.min(order * 95, 285)}ms`);
+      } else {
+        element.style.setProperty("--reveal-delay", `${Math.min(index * 20, 80)}ms`);
+      }
+    });
     if (reducedMotion.matches || !("IntersectionObserver" in window)) {
       revealTargets.forEach((element) => element.classList.add("is-revealed"));
     } else {
@@ -219,7 +232,7 @@
           entry.target.classList.add("is-revealed");
           observer.unobserve(entry.target);
         });
-      }, { threshold: 0.16, rootMargin: "0px 0px -7%" });
+      }, { threshold: 0.12, rootMargin: "0px 0px -15%" });
       revealTargets.forEach((element) => observer.observe(element));
     }
 
@@ -297,4 +310,5 @@
     if (event.target === event.currentTarget) closeQrDialog();
   });
 })();
+
 
