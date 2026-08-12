@@ -27,8 +27,8 @@ const sandbox = { window: {} };
 vm.runInNewContext(configSource, sandbox);
 const config = sandbox.window.SITE_CONFIG;
 if (!config.publicUrl.startsWith("https://")) errors.push("publicUrl は https:// で始めてください");
-if (config.contact.mapUrl !== "https://www.google.com/maps/search/?api=1&query=35.673248%2C139.773880") {
-  errors.push("GoogleマップURLは東光ビルの確認済み座標を使用してください");
+if (config.contact.mapUrl !== "https://maps.app.goo.gl/D1rj1HTSVoHHWyPy5") {
+  errors.push("GoogleマップURLはウインベスト株式会社の正式な場所リンクを使用してください");
 }
 
 const publicExtensions = new Set([".html", ".css", ".js", ".vcf", ".json", ".md"]);
@@ -51,7 +51,9 @@ for (const fragment of ["og:title", "og:description", "og:image", "canonical", "
   if (!html.includes(fragment)) errors.push(`メタデータ不足: ${fragment}`);
 }
 
-if (!html.includes("35.673248%2C139.773880")) errors.push("Googleマップの座標リンクがHTMLにありません");
+if (!html.includes("https://maps.app.goo.gl/D1rj1HTSVoHHWyPy5")) {
+  errors.push("ウインベスト株式会社の正式なGoogleマップリンクがHTMLにありません");
+}
 
 for (const fragment of ["portrait-points", "POINT FIELD", "portrait-points.js"]) {
   if (!html.includes(fragment)) errors.push(`点群肖像の構成不足: ${fragment}`);
