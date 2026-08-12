@@ -5,6 +5,9 @@ window.SITE_CONFIG = Object.freeze({
     nameEn: "Ryu IMAMURA",
     titleJa: "代表取締役",
     titleEn: "CEO",
+    professionJa: "ICT戦略・AI活用コンサルタント",
+    professionEn: "ICT Strategy & AI Enablement Consultant",
+    expertiseJa: "構想策定から全体設計、技術リード、AI活用の定着まで",
     tagline: "人と技術をつなぎ、未来の仕組みをつくる。",
     profileImage: "assets/profile-dotmatrix-v3.webp",
     profileAlt: "点とグリフで描いた今村 立のポートレート"

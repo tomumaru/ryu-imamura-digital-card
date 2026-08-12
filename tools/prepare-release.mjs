@@ -22,7 +22,7 @@ const vcard = [
   `FN:${escapeVCard(person.nameJa)}`,
   `NICKNAME:${escapeVCard(person.nameEn)}`,
   `ORG:${escapeVCard(company.nameJa)}`,
-  `TITLE:${escapeVCard(`${person.titleJa} / ${person.titleEn}`)}`,
+  `TITLE:${escapeVCard(`${person.titleJa} / ${person.titleEn} / ${person.professionJa}`)}`,
   `TEL;TYPE=WORK,VOICE:${contact.telephone}`,
   `TEL;TYPE=CELL:${contact.mobile}`,
   `TEL;TYPE=WORK,FAX:${contact.fax}`,
@@ -30,7 +30,7 @@ const vcard = [
   `ADR;TYPE=WORK:;;${escapeVCard(contact.address)};;;${contact.postalCode};日本`,
   `URL:${company.website}`,
   `URL;TYPE=LinkedIn:${social.linkedin}`,
-  `NOTE:${escapeVCard(person.tagline)}`,
+  `NOTE:${escapeVCard(`${person.expertiseJa}\n${person.tagline}`)}`,
   "END:VCARD",
   ""
 ].join("\r\n");

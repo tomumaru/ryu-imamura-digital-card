@@ -415,6 +415,65 @@ button {
   letter-spacing: 0.085em;
 }
 
+.expertise {
+  position: relative;
+  max-width: 440px;
+  margin-top: 28px;
+  padding: 16px 18px 17px 21px;
+  background:
+    linear-gradient(110deg, rgba(18, 86, 196, 0.09), rgba(18, 86, 196, 0.015) 72%),
+    #fff;
+  border: 1px solid rgba(18, 86, 196, 0.2);
+  box-shadow: 0 12px 30px rgba(11, 40, 86, 0.06);
+}
+
+.expertise::before {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  width: 5px;
+  content: "";
+  background: linear-gradient(to bottom, var(--blue) 0 78%, var(--red) 78%);
+}
+
+.expertise-label {
+  margin: 0 0 8px;
+  color: var(--blue);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.profession {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(17px, 4.5vw, 23px);
+  font-weight: 850;
+  line-height: 1.35;
+  letter-spacing: 0.015em;
+}
+
+.profession-en {
+  margin: 4px 0 0;
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: 0.055em;
+}
+
+.expertise-scope {
+  margin: 11px 0 0;
+  padding-top: 10px;
+  color: #34445e;
+  border-top: 1px solid rgba(18, 86, 196, 0.16);
+  font-size: clamp(12px, 3.25vw, 14px);
+  font-weight: 650;
+  line-height: 1.65;
+  letter-spacing: 0.015em;
+}
+
 .tagline-slot {
   position: relative;
   max-width: 440px;
@@ -1251,11 +1310,33 @@ button {
     white-space: nowrap;
   }
 
+  .expertise {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: none;
+    margin-top: 24px;
+    padding: 14px 15px 14px 18px;
+  }
+
+  .profession {
+    font-size: clamp(16px, 4.65vw, 20px);
+  }
+
+  .profession-en {
+    font-size: clamp(7px, 2.2vw, 9px);
+  }
+
+  .expertise-scope {
+    margin-top: 9px;
+    padding-top: 9px;
+    font-size: clamp(11px, 3.2vw, 13px);
+  }
+
   .tagline-slot {
     grid-column: 1 / -1;
     width: 100%;
     max-width: none;
-    margin-top: 22px;
+    margin-top: 16px;
   }
 
   .tagline {

@@ -30,6 +30,12 @@ if (!config.publicUrl.startsWith("https://")) errors.push("publicUrl は https:/
 if (config.contact.mapUrl !== "https://maps.app.goo.gl/D1rj1HTSVoHHWyPy5") {
   errors.push("GoogleマップURLはウインベスト株式会社の正式な場所リンクを使用してください");
 }
+if (config.person.professionJa !== "ICT戦略・AI活用コンサルタント") {
+  errors.push("専門肩書きが正式採用文言と一致しません");
+}
+if (config.person.expertiseJa !== "構想策定から全体設計、技術リード、AI活用の定着まで") {
+  errors.push("専門領域の説明が正式採用文言と一致しません");
+}
 
 const publicExtensions = new Set([".html", ".css", ".js", ".vcf", ".json", ".md"]);
 const stack = [root];
@@ -49,6 +55,10 @@ while (stack.length) {
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 for (const fragment of ["og:title", "og:description", "og:image", "canonical", "theme-color"]) {
   if (!html.includes(fragment)) errors.push(`メタデータ不足: ${fragment}`);
+}
+
+for (const fragment of ["ICT戦略・AI活用コンサルタント", "構想策定から全体設計、技術リード、AI活用の定着まで", "class=\"expertise\""]) {
+  if (!html.includes(fragment)) errors.push(`専門領域の表示不足: ${fragment}`);
 }
 
 if (!html.includes("https://maps.app.goo.gl/D1rj1HTSVoHHWyPy5")) {

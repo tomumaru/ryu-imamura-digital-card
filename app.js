@@ -35,6 +35,9 @@
     setText("[data-name-en]", person.nameEn);
     setText("[data-title-ja]", person.titleJa);
     setText("[data-title-en]", person.titleEn);
+    setText("[data-profession-ja]", person.professionJa);
+    setText("[data-profession-en]", person.professionEn);
+    setText("[data-expertise-ja]", person.expertiseJa);
     setText("[data-company-ja]", company.nameJa);
     setText("[data-company-en]", company.nameEn);
     setText("[data-email]", contact.email);
@@ -201,6 +204,7 @@
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const revealTargets = [
       $(".identity-head"),
+      $(".expertise"),
       $(".tagline-slot"),
       $(".contact-section .section-heading"),
       $(".office-section .section-heading"),
