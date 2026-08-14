@@ -57,6 +57,15 @@ for (const fragment of ["og:title", "og:description", "og:image", "canonical", "
   if (!html.includes(fragment)) errors.push(`メタデータ不足: ${fragment}`);
 }
 
+for (const fragment of ["IBM+Plex+Sans+JP", "family=Oxanium", "family=Share+Tech+Mono"]) {
+  if (!html.includes(fragment)) errors.push(`Webフォント指定不足: ${fragment}`);
+}
+
+const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+for (const fragment of ["--font-sans: \"IBM Plex Sans JP\"", "--font-display: Oxanium", "--font-mono: \"Share Tech Mono\""]) {
+  if (!css.includes(fragment)) errors.push(`書体設計不足: ${fragment}`);
+}
+
 for (const fragment of ["ICT戦略・AI活用コンサルタント", "構想策定から全体設計、技術リード、AI活用の定着まで", "class=\"expertise\""]) {
   if (!html.includes(fragment)) errors.push(`専門領域の表示不足: ${fragment}`);
 }
