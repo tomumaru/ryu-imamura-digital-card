@@ -69,6 +69,11 @@ for (const fragment of ["portrait-points", "POINT FIELD", "portrait-points.js"])
   if (!html.includes(fragment)) errors.push(`点群肖像の構成不足: ${fragment}`);
 }
 
+const appSource = fs.readFileSync(path.join(root, "app.js"), "utf8");
+for (const fragment of ["canvas.toDataURL(\"image/png\")", "target.replaceChildren(image)", "image.alt = \"このデジタル名刺を開くQRコード\""]) {
+  if (!appSource.includes(fragment)) errors.push(`保存可能なQR画像の構成不足: ${fragment}`);
+}
+
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
